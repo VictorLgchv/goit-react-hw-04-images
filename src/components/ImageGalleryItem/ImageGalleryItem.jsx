@@ -1,7 +1,7 @@
 import { Modal } from 'components/Modal/Modal';
 import React, { Component } from 'react';
 
-import { Item, Img, Btn, BtnSpan } from './ImageGalleryItem.styled';
+import { Item, Img } from './ImageGalleryItem.styled';
 import PropTypes from 'prop-types';
 
 export class ImageGalleryItem extends Component {
@@ -24,9 +24,6 @@ export class ImageGalleryItem extends Component {
         {showModal && (
           <Modal onClose={this.toggleModal}>
             <img src={largeImg} alt={tags} />
-            <Btn type="button" onClick={this.toggleModal}>
-              <BtnSpan>close</BtnSpan>
-            </Btn>
           </Modal>
         )}
       </Item>

@@ -18,13 +18,14 @@ export class ImageGallery extends Component {
     status: 'idle',
     searchPage: 1,
     loading: false,
+    loadMore: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
     const { search } = this.props;
 
     if (prevProps.search !== search) {
-      this.setState({ images: [], status: 'pending' });
+      this.setState({ images: [], searchPage: 1, status: 'pending' });
     }
 
     if (prevState.loading !== this.state.loading) {
@@ -34,7 +35,7 @@ export class ImageGallery extends Component {
       prevProps.search !== search ||
       prevState.searchPage !== this.state.searchPage
     ) {
-      setTimeout(() => this.fetchImages(), 1000);
+      this.fetchImages();
     }
   }
 
@@ -47,10 +48,12 @@ export class ImageGallery extends Component {
             new Error(`По запиту ${search} ми нічого не знайшли`)
           );
         }
+        console.log(data.totalHits)
         return this.setState(prevState => ({
           images: [...prevState.images, ...data.hits],
+          loadMore: this.state.searchPage < Math.ceil(data.totalHits / 12 ),
           status: 'resolved',
-          loading: false,
+          loading: false
         }));
       })
       .catch(error => this.setState({ error, status: 'rejected' }));
@@ -64,7 +67,7 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { error, images, status, loading } = this.state;
+    const { error, images, status, loading, loadMore } = this.state;
 
     if (status === 'idle') {
       return <Title>ready to search</Title>;
@@ -91,7 +94,7 @@ export class ImageGallery extends Component {
               />
             ))}
           </List>
-          {!loading && <Button onBtnClick={this.handlerLoadMoreBtn} />}
+          {!loading && loadMore && <Button onBtnClick={this.handlerLoadMoreBtn} />}
         </App>
       );
     }

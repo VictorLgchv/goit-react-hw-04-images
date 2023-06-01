@@ -1,17 +1,13 @@
 import errorImage from './sign-1719892_1920.png';
 import {Error, Img, Text} from './ErrorView.styled'
 
-import PropTypes from 'prop-types'
 
-export const ErrorView = ({ message }) => {
+export const ErrorView = () => {
   return (
     <Error role="alert">
       <Img src={errorImage} width="250" alt="error" />
-      <Text> {message} </Text>
+      <Text>Відбулося щось непередбачуване, ми не можемо надати вам картинки.</Text>
     </Error>
   );
 };
 
-ErrorView.propTypes = {
-  message: PropTypes.string.isRequired,
-}

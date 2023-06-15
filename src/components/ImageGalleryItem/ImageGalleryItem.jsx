@@ -1,34 +1,26 @@
 import { Modal } from 'components/Modal/Modal';
-import React, { Component } from 'react';
+import { useState } from 'react';
 
 import { Item, Img } from './ImageGalleryItem.styled';
 import PropTypes from 'prop-types';
 
-export class ImageGalleryItem extends Component {
-  state = {
-    showModal: false,
-  };
+export function ImageGalleryItem({ webImg, largeImg, tags }) {
+  const [showModal, setShowModal] = useState(false);
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
+  const toggleModal = () => {
+    setShowModal(prevState => !prevState);
+      };
 
-  render() {
-    const { showModal } = this.state;
-    const { webImg, largeImg, tags } = this.props;
-    return (
-      <Item>
-        <Img src={webImg} alt={tags} onClick={this.toggleModal} />
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <img src={largeImg} alt={tags} />
-          </Modal>
-        )}
-      </Item>
-    );
-  }
+  return (
+    <Item>
+      <Img src={webImg} alt={tags} onClick={toggleModal} />
+      {showModal && (
+        <Modal onClose={toggleModal}>
+          <img src={largeImg} alt={tags} />
+        </Modal>
+      )}
+    </Item>
+  );
 }
 
 ImageGalleryItem.propTypes = {
